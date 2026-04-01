@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "../context/LanguageContext";
+import LanguageSwitcher from "../components/LanguageSwitcher";
 
 const WelcomeLoginSelection = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [loaded, setLoaded] = useState(false);
 
@@ -59,8 +62,9 @@ const WelcomeLoginSelection = () => {
           className="hidden sm:flex items-center gap-2 text-sm font-semibold text-neutral-600 dark:text-neutral-300 hover:text-[#13ec6d] transition-colors cursor-pointer"
         >
           <span className="material-icons-round text-lg">login</span>
-          Sign In
+          {t("common.signIn")}
         </button>
+        <LanguageSwitcher className="ml-2" />
       </nav>
 
       {/* Main Content — Desktop: side-by-side, Mobile: stacked */}
@@ -95,7 +99,7 @@ const WelcomeLoginSelection = () => {
           <p
             className={`text-[#94a39b] text-lg lg:text-xl font-medium leading-relaxed max-w-md transition-all duration-700 delay-300 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
           >
-            Empowering farmers. Enabling corporations. Verified by blockchain.
+            {t("welcome.tagline")}
           </p>
 
           {/* Trust Indicators */}
@@ -128,10 +132,10 @@ const WelcomeLoginSelection = () => {
         >
           <div className="bg-white/70 dark:bg-white/5 backdrop-blur-xl rounded-3xl border border-white/60 dark:border-white/10 shadow-2xl shadow-black/5 p-8 sm:p-10">
             <h2 className="text-2xl font-bold text-center mb-2">
-              Get Started Today
+              {t("welcome.getStarted")}
             </h2>
             <p className="text-sm text-[#94a39b] text-center mb-8">
-              Join the carbon credit revolution
+              {t("welcome.joinRevolution")}
             </p>
 
             <div className="flex flex-col gap-4">
@@ -143,7 +147,7 @@ const WelcomeLoginSelection = () => {
               >
                 <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover:animate-shimmer"></div>
                 <span className="text-[#102218] font-bold text-lg relative z-10 mr-2">
-                  Create Account
+                  {t("welcome.createAccountBtn")}
                 </span>
                 <span className="material-icons-round text-[#102218] relative z-10 group-hover:translate-x-1 transition-transform">
                   arrow_forward
@@ -157,7 +161,7 @@ const WelcomeLoginSelection = () => {
                 className="w-full h-14 bg-transparent border-2 border-neutral-200 dark:border-white/10 hover:bg-neutral-100 dark:hover:bg-white/5 hover:border-[#13ec6d]/50 active:scale-[0.97] transition-all duration-200 rounded-2xl flex items-center justify-center group cursor-pointer"
               >
                 <span className="text-neutral-800 dark:text-white font-bold text-lg group-hover:text-[#13ec6d] transition-colors">
-                  Log In
+                  {t("welcome.logInBtn")}
                 </span>
               </button>
             </div>
@@ -169,14 +173,14 @@ const WelcomeLoginSelection = () => {
                 className="text-neutral-800 dark:text-white font-semibold underline decoration-[#13ec6d]/50 decoration-2 underline-offset-2 mx-1 hover:decoration-[#13ec6d] transition-all"
                 href="#"
               >
-                Terms
+                {t("welcome.terms")}
               </a>
-              &
+              {t("welcome.and")}
               <a
                 className="text-neutral-800 dark:text-white font-semibold underline decoration-[#13ec6d]/50 decoration-2 underline-offset-2 mx-1 hover:decoration-[#13ec6d] transition-all"
                 href="#"
               >
-                Privacy Policy
+                {t("welcome.privacyPolicy")}
               </a>
               .
             </p>
@@ -188,7 +192,7 @@ const WelcomeLoginSelection = () => {
       <div
         className={`z-10 w-full px-6 md:px-12 lg:px-20 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#94a39b] transition-all duration-700 delay-700 ${loaded ? "opacity-100" : "opacity-0"}`}
       >
-        <span>© 2026 CarbonX. All rights reserved.</span>
+        <span>{t("welcome.copyright")}</span>
         <div className="flex items-center gap-4">
           <a href="#" className="hover:text-[#13ec6d] transition-colors">
             About

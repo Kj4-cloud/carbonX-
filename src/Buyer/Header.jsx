@@ -1,5 +1,7 @@
 import React from "react";
 import ConnectWallet from "../components/ConnectWallet";
+import LanguageSwitcher from "../components/LanguageSwitcher";
+import { useTranslation } from "../context/LanguageContext";
 
 export default function Header({
   isDark,
@@ -9,20 +11,22 @@ export default function Header({
   setSearchTerm,
   onNavigate,
 }) {
+  const { t } = useTranslation();
+
   const pageTitles = {
     portfolio: {
-      title: "Portfolio",
-      subtitle: "Your carbon offset investments",
+      title: t("buyerHeader.portfolio"),
+      subtitle: t("buyerHeader.portfolioSub"),
     },
     wallet: {
-      title: "Wallet",
-      subtitle: "Manage your CarbonX wallet",
+      title: t("buyerHeader.wallet"),
+      subtitle: t("buyerHeader.walletSub"),
     },
     impact: {
-      title: "Impact",
-      subtitle: "Track your environmental contribution",
+      title: t("buyerHeader.impact"),
+      subtitle: t("buyerHeader.impactSub"),
     },
-    account: { title: "Account", subtitle: "Manage your profile and settings" },
+    account: { title: t("buyerHeader.account"), subtitle: t("buyerHeader.accountSub") },
   };
   const current = pageTitles[currentPage];
 
@@ -53,7 +57,7 @@ export default function Header({
               )}
               <p className="text-[#718b7c] text-sm font-medium">
                 {currentPage === "marketplace"
-                  ? "1,248 verified projects available"
+                  ? t("buyerHeader.projectsAvailable")
                   : current?.subtitle}
               </p>
             </div>
@@ -61,6 +65,9 @@ export default function Header({
 
           {/* Actions */}
           <div className="flex items-center gap-3">
+            {/* Language Switcher */}
+            <LanguageSwitcher />
+
             {/* Connect Wallet */}
             <ConnectWallet />
 
@@ -99,13 +106,13 @@ export default function Header({
             <input
               id="search-input"
               type="text"
-              placeholder="Search carbon projects"
+              placeholder={t("buyerHeader.searchPlaceholder")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full bg-white dark:bg-[#1a2b21] border-none rounded-xl py-4 pl-12 pr-4 shadow-sm ring-1 ring-[#e3e8e5] dark:ring-[#2d4235] focus:ring-2 focus:ring-[#13ec6d] outline-none transition-all placeholder:text-[#9db0a5] font-[Manrope] text-[#0c1510] dark:text-[#f0f4f2]"
             />
             <button className="absolute right-4 top-1/2 -translate-y-1/2 text-[#9db0a5] group-focus-within:text-[#13ec6d] transition-colors pointer-events-none">
-              ⚙ Filters
+              {t("buyerHeader.filtersBtn")}
             </button>
           </div>
         )}

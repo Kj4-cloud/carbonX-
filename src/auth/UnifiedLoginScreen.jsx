@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useTranslation } from "../context/LanguageContext";
+import LanguageSwitcher from "../components/LanguageSwitcher";
 
 const UnifiedLoginScreen = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { signIn, signInWithGoogle, user, accountType } = useAuth();
 
+  const { t } = useTranslation();
   const [loaded, setLoaded] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [identity, setIdentity] = useState("");
@@ -52,10 +55,9 @@ const UnifiedLoginScreen = () => {
       // Provide user-friendly error messages
       let errorMsg = signInError.message;
       if (errorMsg.includes("Invalid login credentials")) {
-        errorMsg = "Invalid email or password. Please try again.";
+        errorMsg = t("login.invalidCredentials");
       } else if (errorMsg.includes("Email not confirmed")) {
-        errorMsg =
-          "Please confirm your email address first. Check your inbox for a confirmation link.";
+        errorMsg = t("login.emailNotConfirmed");
       }
       setError(errorMsg);
     }
@@ -72,8 +74,7 @@ const UnifiedLoginScreen = () => {
         msg.includes("provider is not enabled") ||
         msg.includes("Unsupported provider")
       ) {
-        msg =
-          "Google sign-in is not yet enabled. Please use email and password to log in, or contact support.";
+        msg = t("login.googleNotEnabled");
       }
       setError(msg);
     }
@@ -81,9 +82,7 @@ const UnifiedLoginScreen = () => {
 
   const handleForgotPassword = async () => {
     if (!identity) {
-      setError(
-        "Please enter your email address first, then click Forgot Password.",
-      );
+      setError(t("login.enterEmailFirst"));
       return;
     }
     navigate("/forgot-password", { state: { email: identity } });
@@ -110,9 +109,10 @@ const UnifiedLoginScreen = () => {
           onClick={() => navigate("/select-account")}
           className="hidden sm:flex items-center gap-2 text-sm font-semibold text-neutral-600 dark:text-neutral-300 hover:text-[#13ec6d] transition-colors cursor-pointer bg-transparent border-none"
         >
-          Create Account
+          {t("common.createAccount")}
           <span className="material-icons-round text-lg">arrow_forward</span>
         </button>
+        <LanguageSwitcher className="ml-2" />
       </nav>
 
       {/* Main Content */}
@@ -128,10 +128,10 @@ const UnifiedLoginScreen = () => {
               className="h-16 mx-auto mb-6"
             />
             <h1 className="text-3xl sm:text-4xl font-bold mb-2 text-[#0c2e1e] dark:text-white tracking-tight">
-              Welcome Back
+              {t("login.welcomeBack")}
             </h1>
             <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 font-medium">
-              Sign in to your CarbonX account
+              {t("login.signInSubtitle")}
             </p>
           </div>
 
@@ -168,7 +168,7 @@ const UnifiedLoginScreen = () => {
                   }`}
                   htmlFor="identity"
                 >
-                  Email Address
+                  {t("login.emailAddress")}
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
@@ -206,7 +206,7 @@ const UnifiedLoginScreen = () => {
                     }`}
                     htmlFor="password"
                   >
-                    Password
+                    {t("login.password")}
                   </label>
                 </div>
                 <div className="relative">
@@ -250,7 +250,7 @@ const UnifiedLoginScreen = () => {
                     className="text-sm font-semibold text-[#13ec6d] hover:text-[#0fb955] transition-colors cursor-pointer bg-transparent border-none"
                     onClick={handleForgotPassword}
                   >
-                    Forgot Password?
+                    {t("login.forgotPassword")}
                   </button>
                 </div>
               </div>
@@ -272,11 +272,11 @@ const UnifiedLoginScreen = () => {
                 {isSubmitting ? (
                   <>
                     <div className="w-5 h-5 border-2 border-[#102218]/30 border-t-[#102218] rounded-full animate-spin"></div>
-                    <span className="relative z-10">Signing In...</span>
+                    <span className="relative z-10">{t("common.signingIn")}</span>
                   </>
                 ) : (
                   <>
-                    <span className="relative z-10">Log In</span>
+                    <span className="relative z-10">{t("common.logIn")}</span>
                     <span className="material-icons-round text-lg relative z-10 group-hover:translate-x-0.5 transition-transform">
                       arrow_forward
                     </span>
@@ -289,7 +289,7 @@ const UnifiedLoginScreen = () => {
             <div className="relative flex py-6 items-center">
               <div className="flex-grow border-t border-slate-200 dark:border-[#1a402d]"></div>
               <span className="flex-shrink-0 mx-4 text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
-                Or login with
+                {t("login.orLoginWith")}
               </span>
               <div className="flex-grow border-t border-slate-200 dark:border-[#1a402d]"></div>
             </div>
@@ -307,7 +307,7 @@ const UnifiedLoginScreen = () => {
                     login
                   </span>
                 </div>
-                <span className="text-sm">Continue with Google</span>
+                <span className="text-sm">{t("login.continueWithGoogle")}</span>
               </button>
             </div>
           </div>
@@ -317,20 +317,20 @@ const UnifiedLoginScreen = () => {
             className={`mt-8 text-center transition-all duration-700 delay-500 ${loaded ? "opacity-100" : "opacity-0"}`}
           >
             <p className="text-slate-500 dark:text-slate-400 font-medium">
-              Don't have an account?
+              {t("login.dontHaveAccount")}
               <button
                 id="btn-register-now"
                 onClick={() => navigate("/select-account")}
                 className="text-[#13ec6d] font-bold hover:text-[#0fb955] ml-1.5 transition-colors cursor-pointer bg-transparent border-none"
               >
-                Register Now
+                {t("login.registerNow")}
               </button>
             </p>
             <div className="mt-4 flex items-center justify-center gap-2 text-xs text-slate-400 dark:text-slate-600">
               <span className="material-icons-round text-sm">
                 verified_user
               </span>
-              <span>Secured by Polygon Blockchain</span>
+              <span>{t("login.securedByPolygon")}</span>
             </div>
           </div>
         </div>

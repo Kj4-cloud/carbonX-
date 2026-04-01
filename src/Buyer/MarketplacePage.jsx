@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../lib/supabase";
+import { useTranslation } from "../context/LanguageContext";
 import Filters from "./Filters";
 import ProjectCard from "./ProjectCard";
 
@@ -10,6 +11,7 @@ export default function MarketplacePage({
   onInfo,
   searchTerm,
 }) {
+  const { t } = useTranslation();
   const [activeFilter, setActiveFilter] = useState("all");
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -88,18 +90,18 @@ export default function MarketplacePage({
             <span className="material-icons-round block text-4xl text-[#13ec6d] mb-3 animate-spin">
               progress_activity
             </span>
-            <p className="text-[#718b7c]">Loading projects...</p>
+            <p className="text-[#718b7c]">{t("marketplace.loadingProjects")}</p>
           </div>
         ) : filtered.length === 0 ? (
           <div className="text-center py-12 text-[#718b7c]">
             <span className="material-icons-round block text-6xl text-[#c7d1cc] dark:text-[#4a6354] mb-3">
               search_off
             </span>
-            <p>No projects found</p>
+            <p>{t("marketplace.noProjectsFound")}</p>
             <p className="text-xs mt-1 text-[#9db0a5]">
               {projects.length === 0
-                ? "No farmers have listed projects yet. Check back soon!"
-                : "Try different search terms or filters"}
+                ? t("marketplace.noFarmersListed")
+                : t("marketplace.tryDifferent")}
             </p>
           </div>
         ) : (

@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useTranslation } from "../context/LanguageContext";
 import { TransactionHistory } from "./Transaction-History";
 
 const menuItems = [
-  { icon: "receipt_long", label: "Transaction History" },
-  { icon: "settings", label: "Settings" },
-  { icon: "help", label: "Help & Support" },
+  { icon: "receipt_long", labelKey: "account.transactionHistory" },
+  { icon: "settings", labelKey: "account.settings" },
+  { icon: "help", labelKey: "account.helpAndSupport" },
 ];
 
 export default function AccountPage() {
+  const { t } = useTranslation();
   const { user, profile, signOut } = useAuth();
   const navigate = useNavigate();
   const [isSigningOut, setIsSigningOut] = useState(false);
@@ -54,7 +56,7 @@ export default function AccountPage() {
           >
             verified
           </span>
-          Verified Buyer
+          {t("account.verifiedBuyer")}
         </div>
       </div>
 
@@ -64,7 +66,7 @@ export default function AccountPage() {
           <button
             key={item.label}
             onClick={() => {
-              if (item.label === "Transaction History") {
+              if (item.labelKey === "account.transactionHistory") {
                 setIsTransactionHistoryOpen(true);
               }
             }}
@@ -74,7 +76,7 @@ export default function AccountPage() {
               <span className="material-icons-round text-[#13ec6d]">
                 {item.icon}
               </span>
-              <span className="font-bold text-sm">{item.label}</span>
+              <span className="font-bold text-sm">{t(item.labelKey)}</span>
             </div>
             <span className="material-icons-round text-[#9db0a5]">
               chevron_right
@@ -93,7 +95,7 @@ export default function AccountPage() {
               {isSigningOut ? "hourglass_empty" : "logout"}
             </span>
             <span className="font-bold text-sm">
-              {isSigningOut ? "Signing Out..." : "Sign Out"}
+              {isSigningOut ? t("common.signingOut") : t("common.signOut")}
             </span>
           </div>
           <span className="material-icons-round text-red-300 dark:text-red-700">

@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "../context/LanguageContext";
 
 export default function CartModal({
   cart,
@@ -7,6 +8,7 @@ export default function CartModal({
   onUpdateQuantity,
   onCheckout,
 }) {
+  const { t } = useTranslation();
   const handleOverlayClick = (e) => {
     if (e.target === e.currentTarget) onClose();
   };
@@ -24,7 +26,7 @@ export default function CartModal({
         {/* Header */}
         <div className="p-6 border-b border-[#e3e8e5] dark:border-[#2d4235] flex items-center justify-between flex-shrink-0">
           <h2 className="text-xl font-black text-[#0c1510] dark:text-[#f0f4f2]">
-            Shopping Cart
+            {t("cart.shoppingCart")}
           </h2>
           <button
             id="close-cart"
@@ -43,7 +45,7 @@ export default function CartModal({
               <span className="material-icons-round block text-6xl text-[#c7d1cc] dark:text-[#4a6354] mb-3">
                 shopping_cart
               </span>
-              <p className="text-[#718b7c]">Your cart is empty</p>
+              <p className="text-[#718b7c]">{t("cart.emptyCart")}</p>
             </div>
           ) : (
             cart.map((item) => (
@@ -104,7 +106,7 @@ export default function CartModal({
         {/* Footer */}
         <div className="p-6 border-t border-[#e3e8e5] dark:border-[#2d4235] flex-shrink-0">
           <div className="flex justify-between items-center mb-4">
-            <span className="text-[#718b7c] font-semibold">Total</span>
+            <span className="text-[#718b7c] font-semibold">{t("common.total")}</span>
             <span
               id="cart-total"
               className="text-2xl font-black text-[#13ec6d]"
@@ -120,7 +122,7 @@ export default function CartModal({
             <span className="material-icons-round" style={{ fontSize: "1.15rem" }}>
               lock
             </span>
-            Proceed to Checkout
+            {t("cart.proceedToCheckout")}
           </button>
         </div>
       </div>

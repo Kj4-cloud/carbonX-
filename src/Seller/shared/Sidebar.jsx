@@ -1,5 +1,7 @@
 import { useLocation, Link } from "react-router-dom";
 import { useTheme } from "../../hooks/useStore";
+import { useTranslation } from "../../context/LanguageContext";
+import LanguageSwitcher from "../../components/LanguageSwitcher";
 import "./Sidebar.css";
 
 /**
@@ -22,6 +24,7 @@ export default function Sidebar({
 }) {
   const location = useLocation();
   const { isDark, toggleTheme } = useTheme();
+  const { t } = useTranslation();
 
   return (
     <aside className="sidebar">
@@ -93,9 +96,12 @@ export default function Sidebar({
             {isDark ? "light_mode" : "dark_mode"}
           </span>
           <span className="sidebar-nav-label">
-            {isDark ? "Light Mode" : "Dark Mode"}
+            {isDark ? t("seller.lightMode") : t("seller.darkMode")}
           </span>
         </button>
+        <div className="sidebar-nav-item" style={{ justifyContent: "center" }}>
+          <LanguageSwitcher />
+        </div>
         {onSignOut && (
           <button
             className="sidebar-nav-item sidebar-signout"
@@ -107,7 +113,7 @@ export default function Sidebar({
             >
               logout
             </span>
-            <span className="sidebar-nav-label">Sign Out</span>
+            <span className="sidebar-nav-label">{t("seller.signOut")}</span>
           </button>
         )}
       </div>

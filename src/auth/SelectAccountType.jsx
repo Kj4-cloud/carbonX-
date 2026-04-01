@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "../context/LanguageContext";
+import LanguageSwitcher from "../components/LanguageSwitcher";
 
 const SelectAccountType = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [accountType, setAccountType] = useState(null);
   const [loaded, setLoaded] = useState(false);
 
@@ -41,8 +44,9 @@ const SelectAccountType = () => {
           className="flex items-center gap-2 text-sm font-semibold text-neutral-600 dark:text-neutral-300 hover:text-[#13ec6d] transition-colors cursor-pointer bg-transparent border-none"
         >
           <span className="material-icons-round text-lg">login</span>
-          <span className="hidden sm:inline">Sign In</span>
+          <span className="hidden sm:inline">{t("common.signIn")}</span>
         </button>
+        <LanguageSwitcher className="ml-2" />
       </nav>
 
       {/* Background Elements */}
@@ -65,10 +69,10 @@ const SelectAccountType = () => {
               className="h-14 mx-auto mb-6"
             />
             <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-3">
-              Choose Your Path
+              {t("selectAccount.chooseYourPath")}
             </h1>
             <p className="text-slate-500 dark:text-slate-400 font-medium max-w-sm mx-auto leading-relaxed">
-              How would you like to participate in the carbon credit revolution?
+              {t("selectAccount.subtitle")}
             </p>
           </div>
 
@@ -107,17 +111,17 @@ const SelectAccountType = () => {
                     <h3
                       className={`text-lg font-bold transition-colors duration-300 ${accountType === "standard" ? "text-[#13ec6d]" : "text-slate-900 dark:text-white group-hover:text-[#13ec6d]"}`}
                     >
-                      Standard User
+                      {t("selectAccount.standardUser")}
                     </h3>
                     <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                      Buy, trade & offset carbon credits
+                      {t("selectAccount.standardDesc")}
                     </p>
                     <div className="flex items-center gap-2 mt-2">
                       <div className="inline-flex items-center gap-1 text-xs font-semibold text-[#13ec6d] bg-[#13ec6d]/10 px-2 py-1 rounded-lg">
                         <span className="material-icons-round text-[14px]">
                           verified_user
                         </span>
-                        Aadhaar Verified
+                        {t("selectAccount.aadhaarVerified")}
                       </div>
                     </div>
                   </div>
@@ -167,23 +171,23 @@ const SelectAccountType = () => {
                     <h3
                       className={`text-lg font-bold transition-colors duration-300 ${accountType === "farmer" ? "text-[#13ec6d]" : "text-slate-900 dark:text-white group-hover:text-[#13ec6d]"}`}
                     >
-                      Farmer
+                      {t("selectAccount.farmer")}
                     </h3>
                     <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                      Earn & sell verified carbon credits
+                      {t("selectAccount.farmerDesc")}
                     </p>
                     <div className="flex items-center gap-2 mt-2 flex-wrap">
                       <div className="inline-flex items-center gap-1 text-xs font-semibold text-[#13ec6d] bg-[#13ec6d]/10 px-2 py-1 rounded-lg">
                         <span className="material-icons-round text-[14px]">
                           badge
                         </span>
-                        Farmer ID Verified
+                       {t("selectAccount.farmerIdVerified")}
                       </div>
                       <div className="inline-flex items-center gap-1 text-xs font-semibold text-amber-600 bg-amber-500/10 px-2 py-1 rounded-lg">
                         <span className="material-icons-round text-[14px]">
                           stars
                         </span>
-                        Premium
+                        {t("selectAccount.premium")}
                       </div>
                     </div>
                   </div>
@@ -218,7 +222,7 @@ const SelectAccountType = () => {
               {accountType && (
                 <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer"></div>
               )}
-              <span className="relative z-10">Continue</span>
+              <span className="relative z-10">{t("common.continue")}</span>
               <span className="material-icons-round relative z-10 group-hover:translate-x-1 transition-transform">
                 arrow_forward
               </span>
@@ -227,13 +231,13 @@ const SelectAccountType = () => {
             {/* Footer Link */}
             <div className="text-center mt-6">
               <p className="text-slate-500 dark:text-slate-400 text-sm">
-                Already have an account?
+                {t("selectAccount.alreadyHaveAccount")}
                 <button
                   id="btn-login-link"
                   onClick={() => navigate("/login")}
                   className="text-slate-900 dark:text-white font-bold hover:text-[#13ec6d] dark:hover:text-[#13ec6d] transition-colors underline decoration-2 decoration-[#13ec6d]/50 underline-offset-4 ml-1.5 cursor-pointer bg-transparent border-none"
                 >
-                  Log In
+                  {t("common.logIn")}
                 </button>
               </p>
             </div>
@@ -244,7 +248,7 @@ const SelectAccountType = () => {
                 lock
               </span>
               <span className="text-xs text-slate-400 font-medium">
-                Secured by Blockchain
+                {t("selectAccount.securedByBlockchain")}
               </span>
             </div>
           </div>
