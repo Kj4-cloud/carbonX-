@@ -3,49 +3,47 @@ import { Outlet, useNavigate } from "react-router-dom";
 import Sidebar from "../Seller/shared/Sidebar";
 import { useAuth } from "../context/AuthContext";
 import { useTheme } from "../hooks/useStore";
+import { useTranslation } from "../context/LanguageContext";
 import "./SellerLayout.css";
 
-const NAV_ITEMS = [
-  {
-    path: "/seller/dashboard",
-    icon: "dashboard",
-    label: "Dashboard",
-    filled: true,
-  },
-  {
-    path: "/seller/projects",
-    icon: "assignment",
-    label: "Projects",
-    filled: true,
-  },
-  {
-    path: "/seller/analytics",
-    icon: "analytics",
-    label: "Analytics",
-    filled: true,
-  },
-  {
-    path: "/seller/wallet",
-    icon: "account_balance_wallet",
-    label: "Wallet",
-    filled: true,
-  },
-  {
-    path: "/seller/blockchain",
-    icon: "verified",
-    label: "Blockchain",
-    filled: true,
-  },
-];
-
-/**
- * SellerLayout — The authenticated farmer/seller dashboard shell.
- * Renders a fixed Sidebar on the left and an <Outlet /> for nested pages.
- */
 export default function SellerLayout() {
   const { user, farmerProfile, signOut } = useAuth();
   const { isDark } = useTheme();
+  const { t } = useTranslation();
   const navigate = useNavigate();
+
+  const NAV_ITEMS = [
+    {
+      path: "/seller/dashboard",
+      icon: "dashboard",
+      label: t("seller.dashboard"),
+      filled: true,
+    },
+    {
+      path: "/seller/projects",
+      icon: "assignment",
+      label: t("seller.projects"),
+      filled: true,
+    },
+    {
+      path: "/seller/analytics",
+      icon: "analytics",
+      label: t("seller.analytics"),
+      filled: true,
+    },
+    {
+      path: "/seller/wallet",
+      icon: "account_balance_wallet",
+      label: t("seller.wallet"),
+      filled: true,
+    },
+    {
+      path: "/seller/blockchain",
+      icon: "verified",
+      label: t("seller.blockchain"),
+      filled: true,
+    },
+  ];
 
   const handleSignOut = async () => {
     await signOut();

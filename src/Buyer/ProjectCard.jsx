@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "../context/LanguageContext";
 
 // Default project images for when farmer hasn't uploaded one
 const DEFAULT_IMAGES = [
@@ -25,6 +26,7 @@ export default function ProjectCard({
   onInfo,
   index,
 }) {
+  const { t } = useTranslation();
   // Map DB fields to display values
   const name = project.project_name || project.name || "Untitled Project";
   const location = project.location || "India";
@@ -49,9 +51,9 @@ export default function ProjectCard({
     image,
     category,
     verified: isVerified,
-    detail1Label: "Available Supply",
-    detail1Value: `${credits.toFixed(0)} Credits`,
-    detail2Label: "Plant Type",
+    detail1Label: t("projectCard.availableSupply"),
+    detail1Value: `${credits.toFixed(0)} ${t("common.credits")}`,
+    detail2Label: t("projectCard.plantType"),
     detail2Value:
       plantType || category.charAt(0).toUpperCase() + category.slice(1),
   };
@@ -80,7 +82,7 @@ export default function ProjectCard({
               >
                 bolt
               </span>
-              Verified
+              {t("projectCard.verified")}
             </span>
           )}
           <span className="px-3 py-1 bg-[rgba(0,0,0,0.6)] text-white text-[10px] font-bold uppercase tracking-wider rounded-full backdrop-blur-sm">
@@ -129,7 +131,7 @@ export default function ProjectCard({
               ₹{price.toFixed(0)}
             </p>
             <p className="text-[#9db0a5] text-[10px] font-semibold uppercase">
-              per tCO₂e
+              {t("common.perTCO2e")}
             </p>
           </div>
         </div>
@@ -151,15 +153,15 @@ export default function ProjectCard({
         <div className="grid grid-cols-2 gap-4 py-3 border-y border-[#f0f4f2] dark:border-[rgba(45,66,53,0.5)] my-4">
           <div>
             <p className="text-[#9db0a5] text-[10px] font-bold uppercase tracking-tight">
-              Available Supply
+              {t("projectCard.availableSupply")}
             </p>
             <p className="font-bold text-sm text-[#0c1510] dark:text-[#f0f4f2]">
-              {credits.toFixed(0)} Credits
+              {credits.toFixed(0)} {t("common.credits")}
             </p>
           </div>
           <div>
             <p className="text-[#9db0a5] text-[10px] font-bold uppercase tracking-tight">
-              {plantType ? "Plant Type" : "Category"}
+              {plantType ? t("projectCard.plantType") : t("projectCard.category")}
             </p>
             <p className="font-bold text-sm text-[#0c1510] dark:text-[#f0f4f2]">
               {plantType ||
@@ -175,7 +177,7 @@ export default function ProjectCard({
             onClick={() => onAddToCart(normalizedProject)}
             className="flex-1 bg-[#13ec6d] hover:bg-[#0fc85d] text-[#0c1510] font-black py-3 rounded-xl transition-all hover:shadow-lg text-sm cursor-pointer border-none font-[Manrope]"
           >
-            Purchase Credits
+            {t("projectCard.purchaseCredits")}
           </button>
           <button
             id={`info-btn-${project.id}`}

@@ -1,10 +1,12 @@
 import React, { useState, useCallback } from "react";
 import { useWallet } from "../context/WalletContext";
 import { formatAddress, copyToClipboard } from "../blockchain/walletUtils";
+import { useTranslation } from "../context/LanguageContext";
 
 export default function WalletPage() {
   const { wallet, walletLoading, transactions, deposit, withdraw } =
     useWallet();
+  const { t } = useTranslation();
   const [showDeposit, setShowDeposit] = useState(false);
   const [showWithdraw, setShowWithdraw] = useState(false);
   const [upiId, setUpiId] = useState("");
@@ -28,11 +30,11 @@ export default function WalletPage() {
   const handleDeposit = async () => {
     const val = parseFloat(amount);
     if (!upiId.trim() || !upiId.includes("@")) {
-      showToast("Enter a valid UPI ID (e.g. name@upi)", true);
+      showToast(t("wallet.validUpiError"), true);
       return;
     }
     if (!val || val <= 0) {
-      showToast("Enter a valid amount", true);
+      showToast(t("wallet.validAmountError"), true);
       return;
     }
     setProcessing(true);
@@ -44,18 +46,18 @@ export default function WalletPage() {
       setUpiId("");
       setShowDeposit(false);
     } else {
-      showToast(result.error || "Deposit failed", true);
+      showToast(result.error || t("wallet.depositFailed"), true);
     }
   };
 
   const handleWithdraw = async () => {
     const val = parseFloat(amount);
     if (!val || val <= 0) {
-      showToast("Enter a valid amount", true);
+      showToast(t("wallet.validAmountError"), true);
       return;
     }
     if (val > wallet.balance) {
-      showToast("Insufficient balance", true);
+      showToast(t("wallet.insufficientBalance"), true);
       return;
     }
     setProcessing(true);
@@ -66,7 +68,7 @@ export default function WalletPage() {
       setAmount("");
       setShowWithdraw(false);
     } else {
-      showToast(result.error || "Withdrawal failed", true);
+      showToast(result.error || t("wallet.withdrawFailed"), true);
     }
   };
 
@@ -104,7 +106,7 @@ export default function WalletPage() {
         <span className="material-icons-round block text-4xl text-[#13ec6d] mb-3 animate-spin">
           progress_activity
         </span>
-        <p className="text-[#718b7c]">Loading wallet...</p>
+        <p className="text-[#718b7c]">{t("wallet.loadingWallet")}</p>
       </div>
     );
   }
@@ -139,7 +141,7 @@ export default function WalletPage() {
               account_balance_wallet
             </span>
             <span className="text-[#9db0a5] text-xs font-bold uppercase tracking-wider">
-              CarbonX Wallet
+              {t("wallet.carbonXWallet")}
             </span>
           </div>
 
@@ -164,7 +166,7 @@ export default function WalletPage() {
 
           {/* Balance */}
           <p className="text-[#9db0a5] text-xs font-bold uppercase tracking-wider mb-1">
-            Available Balance
+            {t("wallet.availableBalance")}
           </p>
           <h2 className="text-4xl font-black text-white tracking-tight">
             ₹
@@ -188,7 +190,7 @@ export default function WalletPage() {
           <span className="material-icons-round" style={{ fontSize: "1.25rem" }}>
             arrow_downward
           </span>
-          Deposit
+          {t("wallet.deposit")}
         </button>
         <button
           onClick={() => {
@@ -200,21 +202,21 @@ export default function WalletPage() {
           <span className="material-icons-round" style={{ fontSize: "1.25rem" }}>
             arrow_upward
           </span>
-          Withdraw
+          {t("wallet.withdraw")}
         </button>
       </div>
 
       {/* ── Transaction History ──────────────────────────────────────── */}
       <div>
         <h3 className="text-lg font-bold text-[#0c1510] dark:text-[#f0f4f2] mb-3">
-          Recent Transactions
+          {t("wallet.recentTransactions")}
         </h3>
         {transactions.length === 0 ? (
           <div className="text-center py-8 bg-white dark:bg-[#1a2b21] rounded-xl border border-[#e3e8e5] dark:border-[#2d4235]">
             <span className="material-icons-round block text-4xl text-[#c7d1cc] dark:text-[#4a6354] mb-2">
               receipt_long
             </span>
-            <p className="text-[#718b7c] text-sm">No transactions yet</p>
+            <p className="text-[#718b7c] text-sm">{t("wallet.noTransactions")}</p>
           </div>
         ) : (
           <div className="flex flex-col gap-2">
@@ -293,8 +295,8 @@ export default function WalletPage() {
                     <span className="material-icons-round text-white" style={{ fontSize: "1.4rem" }}>arrow_downward</span>
                   </div>
                   <div>
-                    <h3 className="text-lg font-black text-white">Deposit Funds</h3>
-                    <p className="text-white/70 text-xs">Add money via UPI</p>
+                    <h3 className="text-lg font-black text-white">{t("wallet.depositFunds")}</h3>
+                    <p className="text-white/70 text-xs">{t("wallet.addMoneyViaUPI")}</p>
                   </div>
                 </div>
                 <button
@@ -309,7 +311,7 @@ export default function WalletPage() {
             <div className="p-6">
               {/* UPI ID Input */}
               <label className="text-xs font-bold text-[#9db0a5] uppercase tracking-wider mb-2 block">
-                UPI ID
+                {t("wallet.upiId")}
               </label>
               <div className="relative mb-4">
                 <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2 pointer-events-none">
@@ -326,7 +328,7 @@ export default function WalletPage() {
 
               {/* Amount Input */}
               <label className="text-xs font-bold text-[#9db0a5] uppercase tracking-wider mb-2 block">
-                Amount (₹)
+                {t("wallet.amount")}
               </label>
               <div className="relative mb-4">
                 <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none">
@@ -336,7 +338,7 @@ export default function WalletPage() {
                   type="number"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  placeholder="Enter amount"
+                  placeholder={t("wallet.enterAmount")}
                   min="1"
                   className="w-full bg-[#f6f8f7] dark:bg-[#102218] border border-[#e3e8e5] dark:border-[#2d4235] rounded-xl py-4 pl-10 pr-4 text-lg font-bold text-[#0c1510] dark:text-[#f0f4f2] outline-none focus:ring-2 focus:ring-[#13ec6d] focus:border-[#13ec6d] font-[Manrope] box-border transition-all"
                 />
@@ -358,7 +360,7 @@ export default function WalletPage() {
               {/* Info note */}
               <div className="flex items-start gap-2 bg-[#ecfdf5] dark:bg-[#0a2818] border border-[#13ec6d]/15 rounded-lg px-3 py-2.5 mb-5">
                 <span className="material-icons-round" style={{ fontSize: "1rem", color: "#13ec6d", marginTop: "1px" }}>info</span>
-                <p className="text-xs text-[#065f46] dark:text-[#6ee7b7] leading-relaxed">Amount will be debited from your UPI account. Please verify the UPI ID before confirming.</p>
+                <p className="text-xs text-[#065f46] dark:text-[#6ee7b7] leading-relaxed">{t("wallet.upiInfoNote")}</p>
               </div>
 
               <button
@@ -367,7 +369,7 @@ export default function WalletPage() {
                 className="w-full bg-[#13ec6d] hover:bg-[#0fc85d] text-[#0c1510] font-black py-4 rounded-xl transition-colors cursor-pointer border-none font-[Manrope] text-base disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 <span className="material-icons-round" style={{ fontSize: "1.2rem" }}>{processing ? "progress_activity" : "check_circle"}</span>
-                {processing ? "Processing..." : "Confirm Deposit"}
+                {processing ? t("common.processing") : t("wallet.confirmDeposit")}
               </button>
             </div>
           </div>
@@ -395,7 +397,7 @@ export default function WalletPage() {
                   </span>
                 </div>
                 <h3 className="text-lg font-black text-[#0c1510] dark:text-[#f0f4f2]">
-                  Withdraw Funds
+                  {t("wallet.withdrawFunds")}
                 </h3>
               </div>
               <button
@@ -407,7 +409,7 @@ export default function WalletPage() {
             </div>
 
             <p className="text-sm text-[#9db0a5] mb-4">
-              Available:{" "}
+              {t("wallet.available")}:{" "}
               <span className="font-bold text-[#0c1510] dark:text-[#f0f4f2]">
                 ₹{Number(wallet?.balance || 0).toLocaleString("en-IN")}
               </span>
@@ -415,13 +417,13 @@ export default function WalletPage() {
 
             <div className="mb-6">
               <label className="text-xs font-bold text-[#9db0a5] uppercase tracking-wider mb-2 block">
-                Amount (₹)
+                {t("wallet.amount")}
               </label>
               <input
                 type="number"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                placeholder="Enter amount"
+                placeholder={t("wallet.enterAmount")}
                 min="1"
                 max={wallet?.balance || 0}
                 className="w-full bg-[#f6f8f7] dark:bg-[#102218] border border-[#e3e8e5] dark:border-[#2d4235] rounded-xl py-4 px-4 text-lg font-bold text-[#0c1510] dark:text-[#f0f4f2] outline-none focus:ring-2 focus:ring-[#13ec6d] font-[Manrope]"
@@ -433,7 +435,7 @@ export default function WalletPage() {
               disabled={processing}
               className="w-full bg-[#f59e0b] hover:bg-[#d97706] text-[#0c1510] font-black py-4 rounded-xl transition-colors cursor-pointer border-none font-[Manrope] text-base disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {processing ? "Processing..." : "Confirm Withdrawal"}
+              {processing ? t("common.processing") : t("wallet.confirmWithdrawal")}
             </button>
           </div>
         </div>

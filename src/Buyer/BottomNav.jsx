@@ -1,13 +1,5 @@
 import React from "react";
-
-const NAV_ITEMS = [
-  { key: "marketplace", icon: "explore", label: "Market" },
-  { key: "portfolio", icon: "pie_chart", label: "Portfolio" },
-  { key: "blockchain_proof", icon: "verified_user", label: "Proof" },
-  { key: "wallet", icon: "account_balance_wallet", label: "Wallet" },
-  { key: "impact", icon: "eco", label: "Impact" },
-  { key: "account", icon: "person", label: "Account" },
-];
+import { useTranslation } from "../context/LanguageContext";
 
 export default function BottomNav({
   currentPage,
@@ -15,6 +7,17 @@ export default function BottomNav({
   onCartOpen,
   totalItems,
 }) {
+  const { t } = useTranslation();
+
+  const NAV_ITEMS = [
+    { key: "marketplace", icon: "explore", label: t("bottomNav.market") },
+    { key: "portfolio", icon: "pie_chart", label: t("bottomNav.portfolio") },
+    { key: "blockchain_proof", icon: "verified_user", label: t("bottomNav.proof") },
+    { key: "wallet", icon: "account_balance_wallet", label: t("bottomNav.wallet") },
+    { key: "impact", icon: "eco", label: t("bottomNav.impact") },
+    { key: "account", icon: "person", label: t("bottomNav.account") },
+  ];
+
   return (
     <nav
       id="bottom-nav"

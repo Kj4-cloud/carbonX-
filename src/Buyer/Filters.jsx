@@ -1,18 +1,21 @@
 import React from "react";
-
-const FILTERS = [
-  { key: "all", label: "All Projects", icon: "category" },
-  { key: "reforestation", label: "Reforestation", icon: "park" },
-  { key: "renewable", label: "Renewable Energy", icon: "wb_sunny" },
-  { key: "agriculture", label: "Agriculture", icon: "agriculture" },
-];
+import { useTranslation } from "../context/LanguageContext";
 
 export default function Filters({ activeFilter, setActiveFilter }) {
+  const { t } = useTranslation();
+
+  const FILTERS = [
+    { key: "all", label: t("filterLabels.allProjects"), icon: "category" },
+    { key: "reforestation", label: t("filterLabels.reforestation"), icon: "park" },
+    { key: "renewable", label: t("filterLabels.renewableEnergy"), icon: "wb_sunny" },
+    { key: "agriculture", label: t("filterLabels.agriculture"), icon: "agriculture" },
+  ];
+
   return (
     <section className="mb-6">
       <div className="flex items-center px-5 mb-3">
         <h2 className="text-xs font-bold uppercase tracking-widest text-[#9db0a5]">
-          Filters
+          {t("common.filters")}
         </h2>
       </div>
 

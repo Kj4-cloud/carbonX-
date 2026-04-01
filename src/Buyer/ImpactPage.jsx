@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { supabase } from "../lib/supabase";
 import { useAuth } from "../context/AuthContext";
+import { useTranslation } from "../context/LanguageContext";
 
 export default function ImpactPage() {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const [totalCredits, setTotalCredits] = useState(0);
   const [monthlyData, setMonthlyData] = useState([]);
@@ -111,20 +113,20 @@ export default function ImpactPage() {
   const impactItems = [
     {
       icon: "park",
-      title: "Trees Equivalent",
-      desc: "Carbon absorbed",
+      title: t("impact.treesEquivalent"),
+      desc: t("impact.carbonAbsorbed"),
       value: Math.round(totalCredits * 2.2).toLocaleString("en-US"),
     },
     {
       icon: "directions_car",
-      title: "Car Miles Offset",
-      desc: "Driving equivalent",
+      title: t("impact.carMilesOffset"),
+      desc: t("impact.drivingEquivalent"),
       value: Math.round(totalCredits * 4.34).toLocaleString("en-US"),
     },
     {
       icon: "home",
-      title: "Home Energy",
-      desc: "Months of electricity",
+      title: t("impact.homeEnergy"),
+      desc: t("impact.monthsOfElectricity"),
       value: Math.round(totalCredits * 0.014).toLocaleString("en-US"),
     },
   ];
@@ -134,7 +136,7 @@ export default function ImpactPage() {
       {/* Environmental Impact */}
       <div className="bg-white dark:bg-[#1a2b21] rounded-2xl p-6 border border-[#e3e8e5] dark:border-[#2d4235]">
         <h3 className="text-lg font-bold text-[#0c1510] dark:text-[#f0f4f2] mb-4">
-          Your Environmental Impact
+          {t("impact.yourEnvironmentalImpact")}
         </h3>
         <div className="flex flex-col gap-5">
           {impactItems.map((item) => (
@@ -161,12 +163,12 @@ export default function ImpactPage() {
       {/* Monthly Progress */}
       <div className="bg-white dark:bg-[#1a2b21] rounded-2xl p-6 border border-[#e3e8e5] dark:border-[#2d4235]">
         <h3 className="text-lg font-bold text-[#0c1510] dark:text-[#f0f4f2] mb-4">
-          Monthly Progress
+          {t("impact.monthlyProgress")}
         </h3>
 
         {isLoading ? (
           <p className="text-[#718b7c] text-sm text-center py-4">
-            Loading data...
+            {t("impact.loadingData")}
           </p>
         ) : monthlyData.length === 0 ? (
           <div className="text-center py-6">
@@ -174,7 +176,7 @@ export default function ImpactPage() {
               monitoring
             </span>
             <p className="text-[#718b7c] text-sm">
-              No impact data available yet. Offset carbon to see your progress!
+              {t("impact.noImpactData")}
             </p>
           </div>
         ) : (

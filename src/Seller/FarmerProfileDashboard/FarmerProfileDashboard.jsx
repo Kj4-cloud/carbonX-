@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabase";
 import { useAuth } from "../../context/AuthContext";
+import { useTranslation } from "../../context/LanguageContext";
 import CarbonCreditChart from "../../components/CarbonCreditChart";
 import "./FarmerProfileDashboard.css";
 
@@ -54,6 +55,7 @@ const INITIAL_PARCELS = [
  */
 export default function FarmerProfileDashboard({ farmer }) {
   const { user, farmerProfile } = useAuth();
+  const { t } = useTranslation();
   const [parcels, setParcels] = useState(farmer?.parcels || INITIAL_PARCELS);
   const [showModal, setShowModal] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -155,13 +157,13 @@ export default function FarmerProfileDashboard({ farmer }) {
       level: farmerProfile?.tier_level || 1,
       name: farmerProfile?.tier_name || "Starter",
       progress: farmerProfile?.tier_progress || 0,
-      nextStatus: "Carbon Champion",
+      nextStatus: t("farmerDashboard.carbonChampion"),
     },
     steps: [
-      { num: 1, label: "Aadhaar KYC", completed: true },
-      { num: 2, label: "Farm Mapping", completed: true },
-      { num: 3, label: "Soil Health Card", completed: true },
-      { num: 4, label: "FPO Verification", completed: false, isNext: true },
+      { num: 1, label: t("farmerDashboard.aadhaarKYC"), completed: true },
+      { num: 2, label: t("farmerDashboard.farmMapping"), completed: true },
+      { num: 3, label: t("farmerDashboard.soilHealthCard"), completed: true },
+      { num: 4, label: t("farmerDashboard.fpoVerification"), completed: false, isNext: true },
     ],
     portfolio: {
       credits: (
@@ -344,7 +346,7 @@ export default function FarmerProfileDashboard({ farmer }) {
               </div>
               <div className="fpd-portfolio-content">
                 <div className="fpd-portfolio-header">
-                  <span className="fpd-portfolio-label">Portfolio Value</span>
+                  <span className="fpd-portfolio-label">{t("farmerDashboard.portfolioValue")}</span>
                   <span className="fpd-portfolio-badge">
                     {data.portfolio.change}
                   </span>
@@ -353,7 +355,7 @@ export default function FarmerProfileDashboard({ farmer }) {
                   <span className="fpd-credits-num">
                     {data.portfolio.credits}
                   </span>
-                  <span className="fpd-credits-unit">Credits</span>
+                  <span className="fpd-credits-unit">{t("common.credits")}</span>
                 </div>
                 <div className="fpd-mini-chart">
                   <div
@@ -391,7 +393,7 @@ export default function FarmerProfileDashboard({ farmer }) {
             <div className="fpd-revenue-card">
               <div className="fpd-revenue-header">
                 <span className="fpd-revenue-label">
-                  Total Revenue Generated
+                  {t("farmerDashboard.totalRevenueGenerated")}
                 </span>
                 <div className="fpd-revenue-icon">
                   <span
@@ -406,7 +408,7 @@ export default function FarmerProfileDashboard({ farmer }) {
               <div className="fpd-payout-section">
                 <div className="fpd-payout-info">
                   <div className="fpd-payout-labels">
-                    <span>Payout Goal</span>
+                    <span>{t("farmerDashboard.payoutGoal")}</span>
                     <span>{data.revenue.payoutGoal}%</span>
                   </div>
                   <div className="progress-bar-sm">
@@ -441,7 +443,7 @@ export default function FarmerProfileDashboard({ farmer }) {
           >
             check_circle
           </span>
-          <span>Parcel registered successfully!</span>
+          <span>{t("farmerDashboard.parcelRegistered")}</span>
         </div>
       )}
 
@@ -464,9 +466,9 @@ export default function FarmerProfileDashboard({ farmer }) {
                   </span>
                 </div>
                 <div>
-                  <h2 className="fpd-modal-title">Register New Parcel</h2>
+                  <h2 className="fpd-modal-title">{t("farmerDashboard.registerNewParcel")}</h2>
                   <p className="fpd-modal-subtitle">
-                    Add a new land parcel to your portfolio
+                    {t("farmerDashboard.addNewParcel")}
                   </p>
                 </div>
               </div>
@@ -488,14 +490,14 @@ export default function FarmerProfileDashboard({ farmer }) {
                   <span className="material-symbols-outlined fpd-form-label-icon">
                     badge
                   </span>
-                  Parcel Name *
+                  {t("farmerDashboard.parcelName")}
                 </label>
                 <input
                   type="text"
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  placeholder="e.g. South Valley Field"
+                  placeholder={t("farmerDashboard.parcelNamePlaceholder")}
                   className={`fpd-form-input ${formErrors.name ? "error" : ""}`}
                 />
                 {formErrors.name && (
@@ -510,14 +512,14 @@ export default function FarmerProfileDashboard({ farmer }) {
                     <span className="material-symbols-outlined fpd-form-label-icon">
                       straighten
                     </span>
-                    Area (Acres) *
+                    {t("farmerDashboard.areaAcres")}
                   </label>
                   <input
                     type="number"
                     name="acres"
                     value={formData.acres}
                     onChange={handleInputChange}
-                    placeholder="e.g. 25.0"
+                    placeholder={t("farmerDashboard.areaPlaceholder")}
                     min="0.1"
                     step="0.1"
                     className={`fpd-form-input ${formErrors.acres ? "error" : ""}`}
@@ -531,7 +533,7 @@ export default function FarmerProfileDashboard({ farmer }) {
                     <span className="material-symbols-outlined fpd-form-label-icon">
                       grass
                     </span>
-                    Crop Type *
+                    {t("farmerDashboard.cropType")}
                   </label>
                   <select
                     name="crop"
@@ -559,11 +561,11 @@ export default function FarmerProfileDashboard({ farmer }) {
                 >
                   my_location
                 </span>
-                GPS Coordinates (Optional)
+                {t("farmerDashboard.gpsCoordinates")}
               </div>
               <div className="fpd-form-row">
                 <div className="fpd-form-group">
-                  <label className="fpd-form-label">Latitude</label>
+                  <label className="fpd-form-label">{t("farmerDashboard.latitude")}</label>
                   <input
                     type="text"
                     name="latitude"
@@ -574,7 +576,7 @@ export default function FarmerProfileDashboard({ farmer }) {
                   />
                 </div>
                 <div className="fpd-form-group">
-                  <label className="fpd-form-label">Longitude</label>
+                  <label className="fpd-form-label">{t("farmerDashboard.longitude")}</label>
                   <input
                     type="text"
                     name="longitude"
@@ -591,14 +593,14 @@ export default function FarmerProfileDashboard({ farmer }) {
                   <span className="material-symbols-outlined fpd-form-label-icon">
                     landscape
                   </span>
-                  Soil Type
+                  {t("farmerDashboard.soilType")}
                 </label>
                 <input
                   type="text"
                   name="soilType"
                   value={formData.soilType}
                   onChange={handleInputChange}
-                  placeholder="e.g. Red Laterite, Black Cotton, Alluvial"
+                  placeholder={t("farmerDashboard.soilTypePlaceholder")}
                   className="fpd-form-input"
                 />
               </div>
@@ -609,13 +611,13 @@ export default function FarmerProfileDashboard({ farmer }) {
                   <span className="material-symbols-outlined fpd-form-label-icon">
                     description
                   </span>
-                  Description
+                  {t("farmerDashboard.description")}
                 </label>
                 <textarea
                   name="description"
                   value={formData.description}
                   onChange={handleInputChange}
-                  placeholder="Brief description of the land parcel, current vegetation, irrigation method..."
+                  placeholder={t("farmerDashboard.descriptionPlaceholder")}
                   rows="3"
                   className="fpd-form-input fpd-form-textarea"
                 />
@@ -630,8 +632,7 @@ export default function FarmerProfileDashboard({ farmer }) {
                   info
                 </span>
                 <span>
-                  New parcels are submitted for review. You'll be notified once
-                  your parcel is verified and activated.
+                  {t("farmerDashboard.infoNote")}
                 </span>
               </div>
 
@@ -642,7 +643,7 @@ export default function FarmerProfileDashboard({ farmer }) {
                   className="fpd-modal-btn-cancel"
                   onClick={handleCloseModal}
                 >
-                  Cancel
+                  {t("common.cancel")}
                 </button>
                 <button type="submit" className="fpd-modal-btn-submit">
                   <span
@@ -651,7 +652,7 @@ export default function FarmerProfileDashboard({ farmer }) {
                   >
                     add_circle
                   </span>
-                  Register Parcel
+                  {t("farmerDashboard.registerParcel")}
                 </button>
               </div>
             </form>
