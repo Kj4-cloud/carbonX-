@@ -34,7 +34,7 @@ CarbonX Loop is a decentralized, transparent, and user-friendly marketplace for 
 ## 📁 Project Structure
 
 ```
-CarbonX_Loop/
+CarbonX
 ├── src/
 │   ├── auth/          # Authentication flows (Login, Register, Password Reset)
 │   ├── components/    # Reusable UI components (Modals, Buttons, Inputs)
